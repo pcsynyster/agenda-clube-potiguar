@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b2545">
+  <title>Agenda do Dono | Clube Potiguar</title>
+  <link rel="icon" href="assets/icone.png">
+  <link rel="apple-touch-icon" href="assets/icone.png">
+  <link rel="stylesheet" href="agenda.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <img class="logo" src="assets/logo.svg" alt="Clube Potiguar">
+      <button class="icon-btn" id="btn-backup" type="button" aria-label="Backup">Backup</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hello">
+      <div>
+        <p class="date" id="today-label"></p>
+        <h1 id="greeting">Olá, Luis</h1>
+      </div>
+      <img class="karla" src="assets/karla.webp" alt="">
+    </section>
+
+    <section class="quote" id="quote">
+      <p class="quote-text" id="quote-text"></p>
+      <p class="quote-ref" id="quote-ref"></p>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><b id="st-events">0</b><span>compromissos hoje</span></div>
+      <div class="stat"><b id="st-tasks">0</b><span>tarefas pendentes</span></div>
+      <div class="stat hl"><b id="st-deals">0</b><span>lojas fechadas</span></div>
+      <div class="stat"><b id="st-mrr">R$ 0</b><span>por mês</span></div>
+    </section>
+
+    <section class="goal">
+      <div class="goal-head"><span>Meta: 150 lojas</span><b id="goal-pct">0%</b></div>
+      <div class="bar"><i id="goal-bar"></i></div>
+    </section>
+
+    <nav class="tabs" id="tabs">
+      <button type="button" data-tab="hoje" class="active">Hoje</button>
+      <button type="button" data-tab="agenda">Agenda</button>
+      <button type="button" data-tab="tarefas">Tarefas</button>
+      <button type="button" data-tab="negocios">Negócios</button>
+      <button type="button" data-tab="diario">Diário</button>
+    </nav>
+
+    <section class="panel active" id="panel-hoje">
+      <div class="panel-head"><h2>Compromissos de hoje</h2></div>
+      <ul class="list" id="today-events"></ul>
+      <div class="panel-head"><h2>Tarefas de hoje e atrasadas</h2></div>
+      <ul class="list" id="today-tasks"></ul>
+      <div class="panel-head"><h2>Próximos passos com lojas</h2></div>
+      <ul class="list" id="today-deals"></ul>
+    </section>
+
+    <section class="panel" id="panel-agenda">
+      <div class="cal-head">
+        <button type="button" class="icon-btn" id="cal-prev" aria-label="Mês anterior">&lsaquo;</button>
+        <h2 id="cal-title"></h2>
+        <button type="button" class="icon-btn" id="cal-next" aria-label="Próximo mês">&rsaquo;</button>
+      </div>
+      <div class="cal-week"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="panel-head"><h2 id="day-title"></h2><button type="button" class="btn-sm" data-new="event">+ Compromisso</button></div>
+      <ul class="list" id="day-events"></ul>
+    </section>
+
+    <section class="panel" id="panel-tarefas">
+      <div class="panel-head">
+        <div class="chips" id="task-filter">
+          <button type="button" data-f="pending" class="active">Pendentes</button>
+          <button type="button" data-f="done">Feitas</button>
+          <button type="button" data-f="all">Todas</button>
+        </div>
+        <button type="button" class="btn-sm" data-new="task">+ Tarefa</button>
+      </div>
+      <ul class="list" id="task-list"></ul>
+    </section>
+
+    <section class="panel" id="panel-negocios">
+      <div class="panel-head">
+        <div class="chips" id="deal-filter">
+          <button type="button" data-f="open" class="active">Em aberto</button>
+          <button type="button" data-f="fechado">Fechados</button>
+          <button type="button" data-f="perdido">Perdidos</button>
+          <button type="button" data-f="all">Todos</button>
+        </div>
+        <button type="button" class="btn-sm" data-new="deal">+ Loja</button>
+      </div>
+      <div class="funnel" id="funnel"></div>
+      <ul class="list" id="deal-list"></ul>
+    </section>
+
+    <section class="panel" id="panel-diario">
+      <div class="panel-head"><h2>O que eu fiz</h2><button type="button" class="btn-sm" data-new="note">+ Anotação</button></div>
+      <ul class="list" id="note-list"></ul>
+    </section>
+  </main>
+
+  <button type="button" class="fab" id="fab" aria-label="Adicionar">+</button>
+
+  <dialog class="sheet" id="sheet">
+    <form id="form" method="dialog">
+      <h2 id="form-title">Novo</h2>
+      <div class="kinds" id="kinds">
+        <button type="button" data-kind="event">Compromisso</button>
+        <button type="button" data-kind="task">Tarefa</button>
+        <button type="button" data-kind="deal">Loja</button>
+        <button type="button" data-kind="note">Anotação</button>
+      </div>
+      <label class="f"><span id="lbl-title">Título</span><input name="title" required maxlength="120"></label>
+      <div class="row">
+        <label class="f" data-for="event task note deal"><span id="lbl-date">Data</span><input type="date" name="date"></label>
+        <label class="f" data-for="event"><span>Hora</span><input type="time" name="time"></label>
+      </div>
+      <label class="f" data-for="event"><span>Local</span><input name="place" maxlength="120"></label>
+      <label class="f" data-for="task"><span>Prioridade</span>
+        <select name="priority"><option value="normal">Normal</option><option value="alta">Alta</option><option value="baixa">Baixa</option></select>
+      </label>
+      <div class="row" data-for="deal">
+        <label class="f"><span>Status</span>
+          <select name="status">
+            <option value="prospeccao">Prospecção</option>
+            <option value="visitado">Visitado</option>
+            <option value="negociando">Negociando</option>
+            <option value="fechado">Fechado</option>
+            <option value="perdido">Perdido</option>
+          </select>
+        </label>
+        <label class="f"><span>Plano</span>
+          <select name="plan"><option value="49">R$ 49</option><option value="79" selected>R$ 79</option></select>
+        </label>
+      </div>
+      <div class="row" data-for="deal">
+        <label class="f"><span>Contato (WhatsApp)</span><input name="contact" inputmode="tel" maxlength="40"></label>
+        <label class="f"><span>Bairro</span><input name="place2" maxlength="60"></label>
+      </div>
+      <label class="f" data-for="deal"><span>Próximo passo</span><input name="next" maxlength="120" placeholder="Ex.: voltar quinta às 15h"></label>
+      <label class="f"><span>Observações</span><textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+      <div class="actions">
+        <button type="button" class="btn-ghost danger" id="btn-delete">Excluir</button>
+        <span class="grow"></span>
+        <button type="button" class="btn-ghost" id="btn-cancel">Cancelar</button>
+        <button type="submit" class="btn">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="sheet" id="backup">
+    <div class="backup">
+      <h2>Backup</h2>
+      <p>Seus dados ficam só neste navegador. Baixe um backup de vez em quando para não perder nada se limpar o navegador ou trocar de aparelho.</p>
+      <button type="button" class="btn" id="btn-export">Baixar backup</button>
+      <label class="btn-ghost file">Restaurar backup<input type="file" id="file-import" accept="application/json"></label>
+      <button type="button" class="btn-ghost" id="btn-close-backup">Fechar</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="frases.js"></script>
+  <script src="agenda.js"></script>
+</body>
+</html>
